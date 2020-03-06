@@ -8,6 +8,27 @@ pyXDF
 
 pyXDF is a Python importer for [XDF](https://github.com/sccn/xdf) files.
 
+## Sample usage
+
+```
+import pyxdf
+import matplotlib.pyplot as plt
+import numpy as np
+
+data, header = pyxdf.load_xdf('test.xdf')
+for stream in data: 
+	y = stream['time_series'] 
+	if isinstance(y, list): 
+		for ts, marker in zip(stream['time_stamps'], y): 
+			plt.axvline(x=ts, label=marker) 
+	elif isinstance(y, np.ndarray): 
+		plt.plot(stream['time_stamps'], y) 
+	else: 
+		raise RuntimeError('Unknown stream format') 
+```
+
+pyxdf.load
+
 ## Installation
 
 The latest stable version can be installed with `pip install pyxdf`.
